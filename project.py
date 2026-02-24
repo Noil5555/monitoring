@@ -1,12 +1,20 @@
 import psutil
 import platform
+import system_info
 import time
 from datetime import datetime
-import system_info
+import json
+from pathlib import Path
 import smtplib
 from email.mime.text import MIMEText
 
+CONFIG_PATH = Path("config.json")
 
+if not CONFIG_PATH.exist():
+    print("Could not find config.json. Make sure it is in the same diractory as the project.py skript")
+
+with open (CONFIG_PATH , "r", encoding = "utf-8") as f:
+    config = json.load
 
 uname = platform.uname()
 cpufequence = psutil.cpu_freq()
@@ -14,8 +22,8 @@ svmem = psutil.virtual_memory()
 partitions = psutil.disk_partitions()
 if_addrs = psutil.net_if_addrs()
 net_io = psutil.net_io_counters()
-sender = "a-mail@info.com"
-adresser = "you-mail@gmail.com"
+sender = config ["sender"]
+adresser = config ["adresser"]
 cpu_logging = ""
 cpu_status = ""
 ram_logging = ""
